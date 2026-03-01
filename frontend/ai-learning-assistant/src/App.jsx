@@ -8,7 +8,7 @@ import DashboardPage from './pages/Dashboard/DashboardPage';
 import DocumentListPage from './pages/Documents/DocumentListPage';
 import DocumentDetailPage from './pages/Documents/DocumentDetailPage';
 import FlashcardsListPage from './pages/Flashcards/FlashcardsListPage';
-import FlashcardPage from './pages/Flashcards/flashcardPage';
+import FlashcardPage from './pages/Flashcards/FlashcardPage';
 import QuizTakePage from './pages/Quizzes/QuizTakePage';
 import QuizResultPage from './pages/Quizzes/QuizResultPage';
 import ProfilePage from './pages/Profile/ProfilePage';
