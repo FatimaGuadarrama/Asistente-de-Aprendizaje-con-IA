@@ -5,7 +5,7 @@ import moment from 'moment';
 import toast from 'react-hot-toast';
 import documentService from '../../services/documentService';
 
-// Función auxiliar para formatear el tamaño del archivo
+//Función auxiliar para formatear el tamaño del archivo
 const formatFileSize = (bytes) => {
   if (bytes === undefined || bytes === null) return "N/A";
 
