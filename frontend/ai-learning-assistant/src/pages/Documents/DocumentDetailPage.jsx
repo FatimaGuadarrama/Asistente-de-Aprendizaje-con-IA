@@ -46,7 +46,7 @@ const DocumentDetailPage = () => {
       return filePath;
     }
 
-    const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:8000";
+    const baseUrl = process.env.REACT_APP_API_URL;
     return `${baseUrl}${filePath.startsWith("/") ? "" : "/"}${filePath}`;
   };
 
