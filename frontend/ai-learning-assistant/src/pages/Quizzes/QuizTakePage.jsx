@@ -21,7 +21,7 @@ const QuizTakePage = () => {
     const fetchQuiz = async () => {
       try {
         const response = await quizService.getQuizById(quizId);
-        setQuiz (response.data);
+        setQuiz (response.data.data);
       } catch (error) {
         toast.error('No se pudo obtener el Quiz');
         console.error(error);
