@@ -12,13 +12,14 @@ import FlashcardManager from "../../components/flashcards/FlashcardManager";
 import QuizManager from "../../components/quizzes/QuizManager";
 
 const DocumentDetailPage = () => {
+
   const { id } = useParams();
   const [document, setDocument] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('Content');
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) return; // evita la llamada si id aún no está definido
 
     const fetchDocumentDetails = async () => {
       try {
@@ -35,30 +36,24 @@ const DocumentDetailPage = () => {
     fetchDocumentDetails();
   }, [id]);
 
-  // Construcción segura de la URL del PDF
+  // Funciones auxiliares para obtener el PDF URL completo
   const getPdfUrl = () => {
     if (!document?.filePath) return null;
 
     const filePath = document.filePath;
 
-    // Si el filePath ya es una URL absoluta pero apunta a localhost, lo reemplazamos
-    if (filePath.startsWith("http://localhost") || filePath.startsWith("https://localhost")) {
-      const baseUrl = process.env.REACT_APP_API_URL;
-      return `${baseUrl}${filePath.replace(/^https?:\/\/localhost(:\d+)?/, "")}`;
-    }
-
-    // Si ya es una URL absoluta válida (https://...), la devolvemos tal cual
     if (filePath.startsWith("http://") || filePath.startsWith("https://")) {
       return filePath;
     }
 
-    // Si es relativa, la concatenamos con el dominio del backend
     const baseUrl = process.env.REACT_APP_API_URL;
     return `${baseUrl}${filePath.startsWith("/") ? "" : "/"}${filePath}`;
   };
 
   const renderContent = () => {
-    if (loading) return <Spinner />;
+    if (loading) {
+      return <Spinner />;
+    }
     if (!document || !document.filePath) {
       return <div className="text-center p-8">PDF no disponible.</div>;
     }
@@ -92,31 +87,30 @@ const DocumentDetailPage = () => {
     );
   };
 
-  const renderChat = () => <ChatInterface />;
-  const renderAIActions = () => <AIActions />;
+  const renderChat = () => {
+    return <ChatInterface />
+  };
 
+  const renderAIActions = () => {
+    return <AIActions/>;
+  };
+  
   const renderFlashcardsTab = () => {
-    if (document?.role === "viewer") {
-      return (
-        <div className="text-center p-8 text-slate-600">
-          Este documento se te compartió solo para lectura. 
-          Solo el creador puede generar, eliminar y visualizar las flashcards.
-        </div>
-      );
-    }
-    return <FlashcardManager documentId={id} canEdit={document?.role === "creator"} />;
+    return (
+      <FlashcardManager
+        documentId={id}
+        readOnly={document?.role === "viewer"}
+      />
+    );
   };
 
   const renderQuizzesTab = () => {
-    if (document?.role === "viewer") {
-      return (
-        <div className="text-center p-8 text-slate-600">
-          Este documento se te compartió solo para lectura. 
-          Solo el creador puede generar, eliminar y visualizar los quizzes.
-        </div>
-      );
-    }
-    return <QuizManager documentId={id} canEdit={document?.role === "creator"} />;
+    return (
+      <QuizManager
+        documentId={id}
+        readOnly={document?.role === "viewer"}
+      />
+    );
   };
 
   const tabs = [
@@ -127,24 +121,26 @@ const DocumentDetailPage = () => {
     { name: "Quizzes", label: "Quizzes", content: renderQuizzesTab() },
   ];
 
-  if (loading) return <Spinner />;
-  if (!document) return <div className="text-center p-8">Documento no encontrado.</div>;
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (!document) {
+    return <div className="text-center p-8">Documento no encontrado.</div>;
+  }
 
   return (
-    <div>
-      <div className="mb-4">
-        <Link
-          to="/documents"
-          className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900 transition-colors"
-        >
-          <ArrowLeft size={16} />
-          Volver a Documentos
-        </Link>
-      </div>
-      <PageHeader title={document.title} />
-      <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+  <div>
+    <div className="mb-4">
+      <Link to="/documents" className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900 transition-colors">
+        <ArrowLeft size={16} />
+        Volver a Documentos
+      </Link>
     </div>
-  );
-};
+    <PageHeader title={document.title} />
+    <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+  </div>
+  )
+}
 
 export default DocumentDetailPage;
