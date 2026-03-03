@@ -50,8 +50,7 @@ const QuizManager = ({documentId}) => {
       setIsGenerateModalOpen(false);
       fetchQuizzes();
     } catch (error) {
-      console.error("Error en Gemini API:", error.response?.data || error.message);
-      throw new Error("No se pudieron generar las preguntas del quiz");
+      toast.error(error.massage || 'No se pudo generar el Quiz.');
     } finally {
       setGenerating(false);
     }
