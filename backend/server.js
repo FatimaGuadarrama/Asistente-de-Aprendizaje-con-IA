@@ -23,8 +23,12 @@ const __dirname = path.dirname(__filename);
 // Initialize express app
 const app = express();
 
+
 // Connect to MongoDB
 connectDB();
+
+// Servir la carpeta uploads
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Middleware to handle CORS
 app.use(
