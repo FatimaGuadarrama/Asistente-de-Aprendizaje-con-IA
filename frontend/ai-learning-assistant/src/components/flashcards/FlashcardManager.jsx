@@ -79,7 +79,7 @@ const FlashcardManager = ({ documentId, readOnly = false }) => {
     }
   };
 
-  /*const handleReview = async (index) => {
+  const handleReview = async (index) => {
     const currentCard = selectedSet?.cards[currentCardIndex];
     if (!currentCard) return;
 
@@ -89,7 +89,7 @@ const FlashcardManager = ({ documentId, readOnly = false }) => {
     } catch (error) {
       toast.error("Error al revisar las Flashcards.");
     }
-  };*/
+  };
 
   const handleToggleStar = async (cardId) => {
     try {

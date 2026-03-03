@@ -12,13 +12,14 @@ import FlashcardManager from "../../components/flashcards/FlashcardManager";
 import QuizManager from "../../components/quizzes/QuizManager";
 
 const DocumentDetailPage = () => {
+
   const { id } = useParams();
   const [document, setDocument] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('Content');
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) return; // evita la llamada si id aún no está definido
 
     const fetchDocumentDetails = async () => {
       try {
@@ -35,24 +36,24 @@ const DocumentDetailPage = () => {
     fetchDocumentDetails();
   }, [id]);
 
-  // Construcción segura de la URL del PDF
+  // Funciones auxiliares para obtener el PDF URL completo
   const getPdfUrl = () => {
     if (!document?.filePath) return null;
 
     const filePath = document.filePath;
 
-    // Si ya es una URL absoluta, la devolvemos tal cual
     if (filePath.startsWith("http://") || filePath.startsWith("https://")) {
       return filePath;
     }
 
-    // Usamos la variable de entorno o el dominio actual como fallback
-    const baseUrl = process.env.REACT_APP_API_URL || window.location.origin;
+    const baseUrl = process.env.REACT_APP_API_URL;
     return `${baseUrl}${filePath.startsWith("/") ? "" : "/"}${filePath}`;
   };
 
   const renderContent = () => {
-    if (loading) return <Spinner />;
+    if (loading) {
+      return <Spinner />;
+    }
     if (!document || !document.filePath) {
       return <div className="text-center p-8">PDF no disponible.</div>;
     }
@@ -86,22 +87,31 @@ const DocumentDetailPage = () => {
     );
   };
 
-  const renderChat = () => <ChatInterface />;
-  const renderAIActions = () => <AIActions />;
+  const renderChat = () => {
+    return <ChatInterface />
+  };
 
-  const renderFlashcardsTab = () => (
-    <FlashcardManager
-      documentId={id}
-      canEdit={document?.role === "creator"} // viewer puede ver, creator puede editar
-    />
-  );
+  const renderAIActions = () => {
+    return <AIActions/>;
+  };
+  
+  const renderFlashcardsTab = () => {
+    return (
+      <FlashcardManager
+        documentId={id}
+        readOnly={document?.role === "viewer"}
+      />
+    );
+  };
 
-  const renderQuizzesTab = () => (
-    <QuizManager
-      documentId={id}
-      canEdit={document?.role === "creator"} // viewer puede ver, creator puede editar
-    />
-  );
+  const renderQuizzesTab = () => {
+    return (
+      <QuizManager
+        documentId={id}
+        readOnly={document?.role === "viewer"}
+      />
+    );
+  };
 
   const tabs = [
     { name: "Content", label: "Contenido", content: renderContent() },
@@ -111,24 +121,26 @@ const DocumentDetailPage = () => {
     { name: "Quizzes", label: "Quizzes", content: renderQuizzesTab() },
   ];
 
-  if (loading) return <Spinner />;
-  if (!document) return <div className="text-center p-8">Documento no encontrado.</div>;
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (!document) {
+    return <div className="text-center p-8">Documento no encontrado.</div>;
+  }
 
   return (
-    <div>
-      <div className="mb-4">
-        <Link
-          to="/documents"
-          className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900 transition-colors"
-        >
-          <ArrowLeft size={16} />
-          Volver a Documentos
-        </Link>
-      </div>
-      <PageHeader title={document.title} />
-      <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+  <div>
+    <div className="mb-4">
+      <Link to="/documents" className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900 transition-colors">
+        <ArrowLeft size={16} />
+        Volver a Documentos
+      </Link>
     </div>
-  );
-};
+    <PageHeader title={document.title} />
+    <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+  </div>
+  )
+}
 
 export default DocumentDetailPage;
