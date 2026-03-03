@@ -35,7 +35,7 @@ export const uploadDocument = async (req, res, next) => {
 
         // Construir la URL para el archivo subido
         const baseUrl = process.env.SERVER_URL;
-        const fileUrl = `${baseUrl}/uploads/documents/${req.file.filename}`;
+        const fileURL = `${baseUrl}/uploads/documents/${req.file.filename}`;
         const filePath = req.file.path;
 
         // Crear registro del documento
@@ -43,7 +43,7 @@ export const uploadDocument = async (req, res, next) => {
           userId: req.user._id,
           title,
           fileName: req.file.originalname,
-          fileUrl,   // para el frontend
+          fileURL,   // para el frontend
           filePath,  // para el backend
           fileSize: req.file.size,
           status: "processing",
