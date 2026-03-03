@@ -42,7 +42,8 @@ export const uploadDocument = async (req, res, next) => {
         userId: req.user._id,
         title,
         fileName: req.file.originalname,
-        filePath: fileUrl, // Guardar la URL en lugar de la ruta local
+        fileUrl,   // para el frontend
+        filePath,  // para el backend
         fileSize: req.file.size,
         status: "processing",
         });
