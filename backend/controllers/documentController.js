@@ -36,39 +36,40 @@ export const uploadDocument = async (req, res, next) => {
         // Construir la URL para el archivo subido
         const baseUrl = process.env.SERVER_URL;
         const fileUrl = `${baseUrl}/uploads/documents/${req.file.filename}`;
+        const filePath = req.file.path;
 
         // Crear registro del documento
         const document = await Document.create({
-        userId: req.user._id,
-        title,
-        fileName: req.file.originalname,
-        fileUrl,   // para el frontend
-        filePath,  // para el backend
-        fileSize: req.file.size,
-        status: "processing",
+          userId: req.user._id,
+          title,
+          fileName: req.file.originalname,
+          fileUrl,   // para el frontend
+          filePath,  // para el backend
+          fileSize: req.file.size,
+          status: "processing",
         });
 
         // Crear permiso para el dueño como creator
         await DocumentPermission.create({
-        userId: req.user._id,
-        documentId: document._id,
-        role: "creator",
+          userId: req.user._id,
+          documentId: document._id,
+          role: "creator",
         });
 
         // Procesar PDF en segundo plano
         processPDF(document._id, req.file.path).catch((err) => {
-        console.error("Error al procesar el PDF:", err);
+          console.error("Error al procesar el PDF:", err);
         });
 
         res.status(201).json({
-        success: true,
-        data: document,
-        message: "Documento subido exitosamente. Procesamiento en progreso...",
+          success: true,
+          data: document,
+          message: "Documento subido exitosamente. Procesamiento en progreso...",
         });
     } catch (error) {
         // Limpiar archivo en caso de error
         if (req.file) {
-        await fs.unlink(req.file.path).catch(() => {});
+          await fs.unlink(req.file.path).catch(() => {});
         }
         next(error);
     }
