@@ -80,14 +80,14 @@ const FlashcardManager = ({ documentId, readOnly = false }) => {
   };
 
   const handleReview = async (index) => {
-    const currentCard = selectedSet?.cards[currentCardIndex];
+    const currentCard = selectedSet?.cards[index];
     if (!currentCard) return;
 
     try {
-      await flashcardService.reviewFlashcard(currentCard._id, index);
-      toast.success("¡Flashcards revisadas!");
+      await flashcardService.reviewFlashcard(currentCard._id);
+      toast.success("¡Flashcard marcada como revisada!");
     } catch (error) {
-      toast.error("Error al revisar las Flashcards.");
+      toast.error("Error al marcar la Flashcard como revisada.");
     }
   };
 
