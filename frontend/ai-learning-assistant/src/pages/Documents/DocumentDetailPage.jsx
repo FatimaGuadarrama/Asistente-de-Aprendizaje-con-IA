@@ -45,7 +45,7 @@ const DocumentDetailPage = () => {
       return filePath;
     }
 
-    const baseUrl = process.env.REACT_APP_API_URL;
+    const baseUrl = process.env.REACT_APP_API_URL || window.location.origin;
     return `${baseUrl}${filePath.startsWith("/") ? "" : "/"}${filePath}`;
   };
 
