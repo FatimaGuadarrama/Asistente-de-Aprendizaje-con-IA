@@ -26,8 +26,7 @@ const app = express();
 // Connect to MongoDB
 connectDB();
 
-// Servir la carpeta uploads
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Middleware to handle CORS
 app.use(
