@@ -7,7 +7,7 @@ import Spinner from '../../components/common/Spinner';
 import toast from 'react-hot-toast';
 import Button from '../../components/common/Button';
 
-const QuizTakePage = ({documentId}) => {
+const QuizTakePage = () => {
 
   const { quizId } = useParams();
   const navigate = useNavigate();
