@@ -35,15 +35,19 @@ const DocumentDetailPage = () => {
     fetchDocumentDetails();
   }, [id]);
 
+  // Construcción segura de la URL del PDF
   const getPdfUrl = () => {
     if (!document?.filePath) return null;
 
     const filePath = document.filePath;
+
+    // Si ya es una URL absoluta, la devolvemos tal cual
     if (filePath.startsWith("http://") || filePath.startsWith("https://")) {
       return filePath;
     }
 
-    const baseUrl = process.env.REACT_APP_API_URL;
+    // Usamos la variable de entorno o el dominio actual como fallback
+    const baseUrl = process.env.REACT_APP_API_URL || window.location.origin;
     return `${baseUrl}${filePath.startsWith("/") ? "" : "/"}${filePath}`;
   };
 
