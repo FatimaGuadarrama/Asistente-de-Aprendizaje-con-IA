@@ -41,11 +41,19 @@ const DocumentDetailPage = () => {
 
     const filePath = document.filePath;
 
+    // Si el filePath ya es una URL absoluta pero apunta a localhost, lo reemplazamos
+    if (filePath.startsWith("http://localhost") || filePath.startsWith("https://localhost")) {
+      const baseUrl = process.env.REACT_APP_API_URL;
+      return `${baseUrl}${filePath.replace(/^https?:\/\/localhost(:\d+)?/, "")}`;
+    }
+
+    // Si ya es una URL absoluta válida (https://...), la devolvemos tal cual
     if (filePath.startsWith("http://") || filePath.startsWith("https://")) {
       return filePath;
     }
 
-    const baseUrl = process.env.REACT_APP_API_URL || window.location.origin;
+    // Si es relativa, la concatenamos con el dominio del backend
+    const baseUrl = process.env.REACT_APP_API_URL;
     return `${baseUrl}${filePath.startsWith("/") ? "" : "/"}${filePath}`;
   };
 
