@@ -26,8 +26,6 @@ const app = express();
 // Connect to MongoDB
 connectDB();
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
 // Middleware to handle CORS
 app.use(
     cors({
@@ -41,9 +39,8 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-// Static folder for uploads
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Servir archivos estáticos desde /uploads
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Routes
 app.use('/api/auth', authRoutes)
