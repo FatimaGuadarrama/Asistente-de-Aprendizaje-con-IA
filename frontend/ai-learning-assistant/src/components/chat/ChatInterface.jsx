@@ -122,8 +122,8 @@ const ChatInterface = () => {
             <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-emerald-100 to-teal-100 flex items-center justify-center mb-4 shadow-lg shadow-emerald-500/10">
               <MessageSquare className="w-8 h-8 text-emerald-600" strokeWidth={2} />
             </div>
-            <h3 className="text-base font-semibold text-slate-900 mb-2">Start a conversation</h3>
-            <p className="text-sm text-slate-500">Ask me anything about the document!</p>
+            <h3 className="text-base font-semibold text-slate-900 mb-2">Inicia una conversación</h3>
+            <p className="text-sm text-slate-500">¡Pregúntame lo que quieras sobre el documento!</p>
           </div>
         ) : (
           history.map(renderMessage)
