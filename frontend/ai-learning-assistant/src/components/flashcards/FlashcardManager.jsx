@@ -64,16 +64,14 @@ const FlashcardManager = ({ documentId, readOnly = false }) => {
 
   const handleNextCard = () => {
     if (selectedSet) {
-      handleReview(currentCardIndex);
       setCurrentCardIndex(
-      (prevIndex) => (prevIndex + 1) % selectedSet.cards.length
+        (prevIndex) => (prevIndex + 1) % selectedSet.cards.length
       );
     }
   };
 
   const handlePrevCard = () => {
     if (selectedSet) {
-      handleReview(currentCardIndex);
       setCurrentCardIndex(
         (prevIndex) =>
           (prevIndex - 1 + selectedSet.cards.length) % selectedSet.cards.length
@@ -81,7 +79,7 @@ const FlashcardManager = ({ documentId, readOnly = false }) => {
     }
   };
 
-  const handleReview = async (index) => {
+  /*const handleReview = async (index) => {
     const currentCard = selectedSet?.cards[currentCardIndex];
     if (!currentCard) return;
 
@@ -91,7 +89,7 @@ const FlashcardManager = ({ documentId, readOnly = false }) => {
     } catch (error) {
       toast.error("Error al revisar las Flashcards.");
     }
-  };
+  };*/
 
   const handleToggleStar = async (cardId) => {
     try {
@@ -147,7 +145,7 @@ const FlashcardManager = ({ documentId, readOnly = false }) => {
       <div className="space-y-8">
         {/* Back Button */}
         <button 
-          onClick={() => setSelectedSet (null)}
+          onClick={() => setSelectedSet(null)}
           className="group inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors duration-200"
         >
           <ArrowLeft
@@ -168,38 +166,26 @@ const FlashcardManager = ({ documentId, readOnly = false }) => {
 
           {/* Navigation Controls */}
           <div className="flex items-center gap-6">
-            <button
-              onClick={handlePrevCard}
-              disabled={selectedSet.cards.length <= 1}
-              className="group flex items-center gap-2 px-5 h-11 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm rounded-xl transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-100"
-            >
-              <ChevronLeft
-                className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-200"
-                strokeWidth={2.5}
-              />
+            <button onClick={handlePrevCard} disabled={selectedSet.cards.length <= 1}>
               Anterior
             </button>
 
-            <div className="px-4 py-2 bg-slate-50 rounded-lg border border-slate-200">
-              <span className="text-sm font-semibold text-slate-700">
-                {currentCardIndex + 1}{" "}
-                <span className="text-slate-400 font-normal">/</span>{" "}
-                {selectedSet.cards.length}
-              </span>
+            <div>
+              {currentCardIndex + 1} / {selectedSet.cards.length}
             </div>
 
-            <button
-              onClick={handleNextCard}
-              disabled={selectedSet.cards.length <= 1}
-              className="group flex items-center gap-2 px-5 h-11 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm rounded-xl transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-100"
-            >
-              Siguiente 
-              <ChevronRight
-                className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200"
-                strokeWidth={2.5}
-              />
+            <button onClick={handleNextCard} disabled={selectedSet.cards.length <= 1}>
+              Siguiente
             </button>
           </div>
+
+          {/* Botón para marcar como revisada */}
+          <button
+            onClick={() => handleReview(currentCardIndex)}
+            className="px-4 py-2 bg-emerald-500 text-white rounded-lg"
+          >
+            Marcar como revisada
+          </button>
         </div>
       </div>
     );
