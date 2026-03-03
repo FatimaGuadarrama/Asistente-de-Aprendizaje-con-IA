@@ -7,7 +7,7 @@ import Spinner from '../../components/common/Spinner';
 import toast from 'react-hot-toast';
 import Button from '../../components/common/Button';
 
-const QuizTakePage = () => {
+const QuizTakePage = ({documentId}) => {
 
   const { quizId } = useParams();
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const QuizTakePage = () => {
     const fetchQuiz = async () => {
       try {
         const response = await quizService.getQuizById(quizId);
-        setQuiz (response.data.data);
+        setQuiz (response.data);
       } catch (error) {
         toast.error('No se pudo obtener el Quiz');
         console.error(error);
