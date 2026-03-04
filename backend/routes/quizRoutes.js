@@ -18,7 +18,7 @@ router.use(protect);
 router.get('/:documentId', authorizeDoc("read"), getQuizzes);
 
 // Obtener un quiz específico (viewer o creator pueden acceder)
-router.get('/quiz/:id', authorizeDoc("read"), getQuizById);
+router.get('/quiz/:id', getQuizById);
 
 // Enviar respuestas a un quiz (viewer o creator pueden hacerlo)
 router.post('/:id/submit', authorizeDoc("read"), submitQuiz);
