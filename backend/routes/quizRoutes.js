@@ -17,9 +17,6 @@ router.use(protect);
 // Obtener un quiz específico (viewer o creator pueden acceder)
 router.get('/quiz/:id', getQuizById);
 
-// Obtener todos los quizzes de un documento (viewer o creator pueden acceder)
-router.get('/:documentId', authorizeDoc("read"), getQuizzes);
-
 // Enviar respuestas a un quiz (viewer o creator pueden hacerlo)
 router.post('/:id/submit', authorizeDoc("read"), submitQuiz);
 
@@ -28,5 +25,8 @@ router.get('/:id/results', authorizeDoc("read"), getQuizResults);
 
 // Eliminar un quiz (solo creator puede hacerlo)
 router.delete('/:id', authorizeDoc("write"), deleteQuiz);
+
+// Obtener todos los quizzes de un documento (viewer o creator pueden acceder)
+router.get('/:documentId', authorizeDoc("read"), getQuizzes);
 
 export default router;
