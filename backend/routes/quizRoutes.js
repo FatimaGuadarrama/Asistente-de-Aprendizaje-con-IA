@@ -20,8 +20,8 @@ router.get('/quiz/:id', getQuizById);
 // Enviar respuestas a un quiz
 router.post('/:id/submit', submitQuiz);
 
-// Obtener resultados de un quiz (viewer o creator pueden acceder)
-router.get('/:id/results', authorizeDoc("read"), getQuizResults);
+// Obtener resultados de un quiz
+router.get('/:id/results', getQuizResults);
 
 // Eliminar un quiz (solo creator puede hacerlo)
 router.delete('/:id', authorizeDoc("write"), deleteQuiz);
