@@ -14,11 +14,11 @@ const router = express.Router();
 // Todas las rutas requieren autenticación
 router.use(protect);
 
-// Obtener un quiz específico (viewer o creator pueden acceder)
+// Obtener un quiz específico
 router.get('/quiz/:id', getQuizById);
 
-// Enviar respuestas a un quiz (viewer o creator pueden hacerlo)
-router.post('/:id/submit', authorizeDoc("read"), submitQuiz);
+// Enviar respuestas a un quiz
+router.post('/:id/submit', submitQuiz);
 
 // Obtener resultados de un quiz (viewer o creator pueden acceder)
 router.get('/:id/results', authorizeDoc("read"), getQuizResults);
