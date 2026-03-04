@@ -25,7 +25,7 @@ const QuizManager = ({documentId}) => {
     setLoading(true);
     try {
       const data = await quizService.getQuizzesForDocument(documentId);
-      setQuizzes(data.data);
+      setQuizzes(data?.data || data || []);
     } catch (error) {
       toast.error ('No se pudieron obtener los quizzes.');
       console.error(error);
@@ -50,7 +50,7 @@ const QuizManager = ({documentId}) => {
       setIsGenerateModalOpen(false);
       fetchQuizzes();
     } catch (error) {
-      toast.error(error.massage || 'No se pudo generar el Quiz.');
+      toast.error(error.message || 'No se pudo generar el Quiz.');
     } finally {
       setGenerating(false);
     }
